@@ -1,228 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar Layout Visualizer</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2em;
-        }
-        
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 0.95em;
-        }
-        
-        .input-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        
-        .input-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-            font-weight: 600;
-        }
-        
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            resize: vertical;
-            min-height: 120px;
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            align-items: flex-end;
-        }
-        
-        .control-item {
-            flex: 1;
-            min-width: 150px;
-        }
-        
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-        
-        button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: auto;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        button:active {
-            transform: translateY(0);
-        }
-        
-        .calendar-container {
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 20px;
-            overflow: auto;
-        }
-        
-        #calendar {
-            position: relative;
-            min-height: 400px;
-        }
-        
-        .interval {
-            position: absolute;
-            border-radius: 6px;
-            padding: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        
-        .interval:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            z-index: 10;
-        }
-        
-        .time-axis {
-            position: absolute;
-            left: -50px;
-            font-size: 11px;
-            color: #666;
-            font-weight: 600;
-            width: 45px;
-            text-align: right;
-        }
-        
-        .slot-label {
-            position: absolute;
-            top: -25px;
-            font-size: 11px;
-            color: #666;
-            font-weight: 600;
-            text-align: center;
-        }
-        
-        .stats {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f0f7ff;
-            border-radius: 6px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #667eea;
-        }
-        
-        .example-section {
-            margin-top: 15px;
-            padding: 10px;
-            background: #fff8e1;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-        
-        .example-section strong {
-            color: #f57c00;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Meeting & Calendar Scheduler</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #0ea5e9 0%, #6366f1 60%, #8b5cf6 100%);
+      --surface: #ffffff;
+      --surface-2: #f8fafc;
+      --text: #0f172a;
+      --muted: #64748b;
+      --primary: #2563eb;
+      --primary-2: #1e40af;
+      --accent: #3b82f6;
+      --ring: #93c5fd;
+      --radius: 16px;
+      --shadow-1: 0 10px 30px rgba(2, 6, 23, 0.15);
+      --shadow-2: 0 25px 60px rgba(2, 6, 23, 0.25);
+      --grid: rgba(2, 6, 23, 0.06);
+      --grid-strong: rgba(2, 6, 23, 0.1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans','Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 28px;
+      color: var(--text);
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 0;
+      box-shadow: var(--shadow-2);
+      overflow: hidden;
+      border: 1px solid rgba(99, 102, 241, 0.12);
+      backdrop-filter: saturate(1.2);
+    }
+    .header {
+      background: radial-gradient(1200px 350px at 20% -20%, rgba(59,130,246,0.35), transparent),
+                  radial-gradient(1200px 350px at 80% -20%, rgba(139,92,246,0.28), transparent),
+                  linear-gradient(135deg, var(--primary-2) 0%, var(--accent) 100%);
+      color: white;
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .header::before, .header::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.25;
+    }
+    .header::before {
+      width: 380px; height: 380px; top: -90px; right: -120px;
+      background: conic-gradient(from 180deg at 50% 50%, #93c5fd, #a78bfa, #60a5fa);
+      animation: float 12s ease-in-out infinite;
+    }
+    .header::after {
+      width: 260px; height: 260px; bottom: -80px; left: -100px;
+      background: conic-gradient(from 0deg at 50% 50%, #67e8f9, #93c5fd, #a78bfa);
+      animation: float 10s ease-in-out infinite reverse;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(12px) rotate(8deg); }
+    }
+    h1 {
+      font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+      margin-bottom: 12px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+      opacity: 0.96;
+      line-height: 1.7;
+      max-width: 900px;
+      font-weight: 500;
+    }
+    .content-wrapper { padding: 32px; }
+    .input-section {
+      background: var(--surface-2);
+      padding: 26px;
+      border-radius: 14px;
+      margin-bottom: 26px;
+      border: 1.5px solid rgba(148, 163, 184, 0.25);
+      box-shadow: var(--shadow-1);
+    }
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 24px;
+    }
+    .input-group { display: flex; flex-direction: column; gap: 10px; }
+    label {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.9em;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .label-icon { font-size: 1.05em; color: var(--accent); }
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid rgba(148, 163, 184, 0.35);
+      border-radius: 12px;
+      font-family: 'Inter', ui-monospace, SFMono-Regular, Menlo, Consolas, 'Courier New', monospace;
+      font-size: 14px;
+      resize: vertical;
+      min-height: 140px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.08s;
+      background: rgba(255,255,255,0.8);
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--ring);
+      box-shadow: 0 0 0 4px rgba(147, 197, 253, 0.25);
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(140px, 1fr));
+      gap: 14px;
+      align-items: end;
+    }
+    .control-item { display: flex; flex-direction: column; gap: 8px; }
+    .control-item input[type="number"], .control-item input[type="checkbox"] {
+      width: 100%;
+      padding: 12px 12px;
+      border: 1.5px solid rgba(148, 163, 184, 0.35);
+      border-radius: 12px;
+      font-size: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.08s;
+      background: rgba(255,255,255,0.8);
+      color: var(--text);
+    }
+    .control-item input[type="number"]:focus {
+      outline: none;
+      border-color: var(--ring);
+      box-shadow: 0 0 0 4px rgba(147, 197, 253, 0.25);
+    }
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+    .switch {
+      position: relative;
+      width: 46px; height: 26px; border-radius: 26px;
+      background: rgba(148,163,184,0.35);
+      transition: background 0.2s;
+    }
+    .switch::after {
+      content: '';
+      position: absolute; top: 3px; left: 3px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: white;
+      box-shadow: 0 4px 12px rgba(2,6,23,0.25);
+      transition: transform 0.18s ease;
+    }
+    .switch.on { background: var(--accent); }
+    .switch.on::after { transform: translateX(20px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-2) 0%, var(--accent) 100%);
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      box-shadow: 0 15px 30px rgba(30, 64, 175, 0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.04); }
+    .btn-primary:active { transform: translateY(0); filter: brightness(0.98); }
+    .calendar-container {
+      background: var(--surface);
+      border: 1.5px solid rgba(148, 163, 184, 0.25);
+      border-radius: 14px;
+      padding: 24px;
+      overflow: auto;
+      box-shadow: var(--shadow-1);
+      position: relative;
+    }
+    #calendar {
+      position: relative;
+      min-height: 420px;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent,
+          transparent 38px,
+          var(--grid) 38px,
+          var(--grid) 39px
+        ),
+        repeating-linear-gradient(
+          to right,
+          transparent,
+          transparent 138px,
+          var(--grid-strong) 138px,
+          var(--grid-strong) 140px
+        );
+      border-radius: 12px;
+    }
+    .interval {
+      position: absolute;
+      border-radius: 12px;
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 800;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(2, 6, 23, 0.25);
+      outline: 1px solid rgba(255,255,255,0.35);
+      backdrop-filter: saturate(1.2);
+      animation: pop 260ms ease-out both;
+    }
+    @keyframes pop {
+      from { transform: scale(0.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .interval:hover { transform: scale(1.06); filter: saturate(1.08) brightness(1.03); z-index: 10; }
+    .time-axis {
+      position: absolute;
+      left: -64px;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 800;
+      width: 58px;
+      text-align: right;
+      background: var(--surface);
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(148,163,184,0.3);
+      box-shadow: 0 4px 12px rgba(2,6,23,0.08);
+    }
+    .slot-label {
+      position: absolute;
+      top: -36px;
+      font-size: 12px;
+      color: var(--primary-2);
+      font-weight: 900;
+      text-align: center;
+      background: rgba(147,197,253,0.25);
+      border: 1px solid rgba(147,197,253,0.55);
+      padding: 6px 12px;
+      border-radius: 10px;
+      backdrop-filter: blur(4px);
+    }
+    .stats {
+      margin-top: 26px;
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(238,242,255,0.85) 0%, rgba(219,234,254,0.85) 100%);
+      border-radius: 14px;
+      border-left: 5px solid var(--accent);
+      display: none;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      padding: 18px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-1);
+      border: 1px solid rgba(148,163,184,0.25);
+      gap: 6px;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+    .stat-value {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--primary-2);
+      letter-spacing: -0.02em;
+    }
+    .example-section {
+      margin-top: 6px;
+      padding: 12px;
+      background: rgba(254, 243, 199, 0.85);
+      border-radius: 10px;
+      font-size: 13px;
+      border-left: 4px solid #f59e0b;
+    }
+    .example-section strong { color: #b45309; }
+    .footer {
+      background: #0b1222;
+      color: white;
+      text-align: center;
+      padding: 22px;
+      font-size: 0.95em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .footer strong { color: #60a5fa; font-weight: 800; }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .brand-badge {
+      display: inline-block;
+      background: #22d3ee;
+      color: #0f172a;
+      font-weight: 900;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    @media (max-width: 980px) {
+      .content-wrapper { padding: 22px; }
+      .input-grid { grid-template-columns: 1fr; }
+      .controls { grid-template-columns: repeat(2, minmax(140px,1fr)); }
+      #calendar { min-height: 360px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📅 Calendar Layout Visualizer</h1>
-        <p class="subtitle">Visualize interval scheduling with automatic conflict resolution (Y-axis: Time, X-axis: Slots)</p>
-        
-        <div class="input-section">
-            <div class="input-group">
-                <label for="intervals">Enter Intervals (one per line: start,end)</label>
-                <textarea id="intervals" placeholder="0,30
+  <div class="container">
+    <div class="header">
+      <h1>🚀 Advanced Meeting & Calendar Scheduler</h1>
+      <p class="subtitle">
+        Inspired by a challenge from my Samsung R&amp;D interview—finally solved by connecting the logic of Meeting Rooms II & III.
+      </p>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="input-section">
+        <div class="input-grid">
+          <div class="input-group">
+            <label for="intervals"><span class="label-icon">🗓️</span> Enter Meeting Intervals (one per line: start,end)</label>
+            <textarea id="intervals" placeholder="0,30
 5,10
 15,20
 25,35
@@ -233,197 +373,196 @@
 25,35
 10,25
 30,50</textarea>
-                <div class="example-section">
-                    <strong>Example:</strong> Each line represents an interval. Format: start_time,end_time
-                </div>
+            <div class="example-section">
+              <strong>Example:</strong> Each line represents a meeting interval. Format: start_time,end_time (e.g., 0,30 means meeting from time 0 to 30)
             </div>
-            
+          </div>
+
+          <div class="input-group">
             <div class="controls">
-                <div class="control-item">
-                    <label for="width">Slot Width (px)</label>
-                    <input type="number" id="width" value="120" min="80" max="200">
-                </div>
-                <div class="control-item">
-                    <label for="height">Calendar Height (px)</label>
-                    <input type="number" id="height" value="600" min="400" max="1000">
-                </div>
-                <div class="control-item">
-                    <label for="gap">Gap (px)</label>
-                    <input type="number" id="gap" value="5" min="0" max="20">
-                </div>
-                <button onclick="generateCalendar()">Generate Calendar</button>
+              <div class="control-item">
+                <label for="width">Room Width (px)</label>
+                <input type="number" id="width" value="140" min="80" max="250">
+              </div>
+              <div class="control-item">
+                <label for="height">Timeline Height (px)</label>
+                <input type="number" id="height" value="600" min="400" max="1000">
+              </div>
+              <div class="control-item">
+                <label for="gap">Spacing (px)</label>
+                <input type="number" id="gap" value="8" min="0" max="20">
+              </div>
+              <button class="btn-primary" id="scheduleBtn">🎯 Schedule Meetings</button>
             </div>
+          </div>
         </div>
-        
-        <div class="calendar-container">
-            <div id="calendar"></div>
+      </div>
+
+      <div class="calendar-container">
+        <div id="calendar"></div>
+      </div>
+
+      <div class="stats" id="stats">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Total Meetings</span>
+            <span class="stat-value" id="totalIntervals">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Rooms Required</span>
+            <span class="stat-value" id="slotsRequired">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Time Range</span>
+            <span class="stat-value" id="timeRange">0</span>
+          </div>
         </div>
-        
-        <div class="stats" id="stats" style="display:none;">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-label">Total Intervals</span>
-                    <span class="stat-value" id="totalIntervals">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Slots Required</span>
-                    <span class="stat-value" id="slotsRequired">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Time Range</span>
-                    <span class="stat-value" id="timeRange">0</span>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
 
-    <script>
-        class CalendarLayout {
-            layoutIntervals(intervals, slotWidth, calendarHeight, gap) {
-                if (intervals.length === 0) return { rectangles: [], maxSlots: 0 };
-                
-                const n = intervals.length;
-                const indexedIntervals = intervals.map((interval, i) => ({ interval, index: i }));
-                
-                indexedIntervals.sort((a, b) => a.interval.start - b.interval.start);
-                
-                const usedSlots = [];
-                const availableSlots = [];
-                const intervalToSlot = new Array(n);
-                let maxSlotsUsed = 0;
-                
-                for (const { interval, index } of indexedIntervals) {
-                    const { start, end } = interval;
-                    
-                    while (usedSlots.length > 0 && usedSlots[0].end <= start) {
-                        const slot = usedSlots.shift().slot;
-                        availableSlots.push(slot);
-                        availableSlots.sort((a, b) => a - b);
-                    }
-                    
-                    let assignedSlot;
-                    if (availableSlots.length > 0) {
-                        assignedSlot = availableSlots.shift();
-                    } else {
-                        assignedSlot = maxSlotsUsed++;
-                    }
-                    
-                    usedSlots.push({ end, slot: assignedSlot });
-                    usedSlots.sort((a, b) => a.end - b.end);
-                    intervalToSlot[index] = assignedSlot;
-                }
-                
-                const minTime = Math.min(...intervals.map(i => i.start));
-                const maxTime = Math.max(...intervals.map(i => i.end));
-                const timeRange = maxTime - minTime || 1;
-                
-                const rectangles = intervals.map((interval, i) => {
-                    const slot = intervalToSlot[i];
-                    // X-axis: slots (horizontal positioning)
-                    const x1 = slot * slotWidth + gap;
-                    const x2 = (slot + 1) * slotWidth - gap;
-                    // Y-axis: time (vertical positioning)
-                    const y1 = ((interval.start - minTime) / timeRange) * calendarHeight + gap;
-                    const y2 = ((interval.end - minTime) / timeRange) * calendarHeight - gap;
-                    
-                    return { x1, y1, x2, y2, index: i, slot, interval };
-                });
-                
-                return { rectangles, maxSlots: maxSlotsUsed, minTime, maxTime, timeRange };
-            }
+    <div class="footer">
+      <span class="brand">
+        Developed by <strong>Rakshit Munot</strong> | LNMIIT
+      </span>
+    </div>
+  </div>
+
+  <script>
+    class CalendarLayout {
+      layoutIntervals(intervals, slotWidth, calendarHeight, gap) {
+        if (intervals.length === 0) return { rectangles: [], maxSlots: 0 };
+        const n = intervals.length;
+        const indexedIntervals = intervals.map((interval, i) => ({ interval, index: i }));
+        indexedIntervals.sort((a, b) => a.interval.start - b.interval.start);
+        const usedSlots = [];
+        const availableSlots = [];
+        const intervalToSlot = new Array(n);
+        let maxSlotsUsed = 0;
+        for (const { interval, index } of indexedIntervals) {
+          const { start, end } = interval;
+          while (usedSlots.length > 0 && usedSlots[0].end <= start) {
+            const slot = usedSlots.shift().slot;
+            availableSlots.push(slot);
+            availableSlots.sort((a, b) => a - b);
+          }
+          let assignedSlot;
+          if (availableSlots.length > 0) {
+            assignedSlot = availableSlots.shift();
+          } else {
+            assignedSlot = maxSlotsUsed++;
+          }
+          usedSlots.push({ end, slot: assignedSlot });
+          usedSlots.sort((a, b) => a.end - b.end);
+          intervalToSlot[index] = assignedSlot;
         }
-        
-        function getColor(index) {
-            const colors = [
-                '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', 
-                '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2',
-                '#F8B739', '#52B788', '#E76F51', '#2A9D8F'
-            ];
-            return colors[index % colors.length];
+        const minTime = Math.min(...intervals.map(i => i.start));
+        const maxTime = Math.max(...intervals.map(i => i.end));
+        const timeRange = maxTime - minTime || 1;
+        const rectangles = intervals.map((interval, i) => {
+          const slot = intervalToSlot[i];
+          const x1 = slot * slotWidth + gap;
+          const x2 = (slot + 1) * slotWidth - gap;
+          const y1 = ((interval.start - minTime) / timeRange) * calendarHeight + gap;
+          const y2 = ((interval.end - minTime) / timeRange) * calendarHeight - gap;
+          return { x1, y1, x2, y2, index: i, slot, interval };
+        });
+        return { rectangles, maxSlots: maxSlotsUsed, minTime, maxTime, timeRange };
+      }
+    }
+
+    function getColor(index) {
+      const colors = [
+        '#ef4444', '#3b82f6', '#10b981', '#f59e0b',
+        '#8b5cf6', '#ec4899', '#14b8a6', '#f97316',
+        '#6366f1', '#84cc16', '#06b6d4', '#a855f7'
+      ];
+      return colors[index % colors.length];
+    }
+
+    function generateCalendar() {
+      const intervalsText = document.getElementById('intervals').value.trim();
+      const slotWidth = parseInt(document.getElementById('width').value);
+      const calendarHeight = parseInt(document.getElementById('height').value);
+      const gap = parseInt(document.getElementById('gap').value);
+      if (!intervalsText) {
+        alert('⚠️ Please enter some meeting intervals');
+        return;
+      }
+      const lines = intervalsText.split('\n').filter(line => line.trim());
+      const intervals = [];
+      for (const line of lines) {
+        const parts = line.trim().split(',').map(x => parseInt(x.trim()));
+        if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+          intervals.push({ start: parts[0], end: parts[1] });
         }
-        
-        function generateCalendar() {
-            const intervalsText = document.getElementById('intervals').value.trim();
-            const slotWidth = parseInt(document.getElementById('width').value);
-            const calendarHeight = parseInt(document.getElementById('height').value);
-            const gap = parseInt(document.getElementById('gap').value);
-            
-            if (!intervalsText) {
-                alert('Please enter some intervals');
-                return;
-            }
-            
-            const lines = intervalsText.split('\n').filter(line => line.trim());
-            const intervals = [];
-            
-            for (const line of lines) {
-                const parts = line.trim().split(',').map(x => parseInt(x.trim()));
-                if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-                    intervals.push({ start: parts[0], end: parts[1] });
-                }
-            }
-            
-            if (intervals.length === 0) {
-                alert('No valid intervals found. Use format: start,end');
-                return;
-            }
-            
-            const calendar = new CalendarLayout();
-            const { rectangles, maxSlots, minTime, maxTime, timeRange } = 
-                calendar.layoutIntervals(intervals, slotWidth, calendarHeight, gap);
-            
-            const calendarDiv = document.getElementById('calendar');
-            const totalWidth = maxSlots * slotWidth + 80;
-            calendarDiv.style.width = totalWidth + 'px';
-            calendarDiv.style.height = (calendarHeight + 60) + 'px';
-            calendarDiv.style.position = 'relative';
-            calendarDiv.style.marginLeft = '60px';
-            calendarDiv.style.marginTop = '30px';
-            calendarDiv.innerHTML = '';
-            
-            rectangles.forEach((rect) => {
-                const div = document.createElement('div');
-                div.className = 'interval';
-                div.style.left = rect.x1 + 'px';
-                div.style.top = rect.y1 + 'px';
-                div.style.width = (rect.x2 - rect.x1) + 'px';
-                div.style.height = (rect.y2 - rect.y1) + 'px';
-                div.style.background = getColor(rect.index);
-                div.textContent = `[${rect.interval.start}, ${rect.interval.end}]`;
-                div.title = `Interval ${rect.index}: [${rect.interval.start}, ${rect.interval.end}]\nSlot: ${rect.slot}`;
-                calendarDiv.appendChild(div);
-            });
-            
-            // Add slot labels (at top)
-            for (let i = 0; i < maxSlots; i++) {
-                const label = document.createElement('div');
-                label.className = 'slot-label';
-                label.style.left = (i * slotWidth + slotWidth / 2 - 20) + 'px';
-                label.textContent = `Slot ${i}`;
-                calendarDiv.appendChild(label);
-            }
-            
-            // Add time axis markers (on left side)
-            const numMarkers = 8;
-            for (let i = 0; i <= numMarkers; i++) {
-                const time = minTime + (timeRange * i / numMarkers);
-                const y = (calendarHeight * i / numMarkers);
-                const marker = document.createElement('div');
-                marker.className = 'time-axis';
-                marker.style.top = y + 'px';
-                marker.textContent = Math.round(time);
-                calendarDiv.appendChild(marker);
-            }
-            
-            // Update stats
-            document.getElementById('stats').style.display = 'block';
-            document.getElementById('totalIntervals').textContent = intervals.length;
-            document.getElementById('slotsRequired').textContent = maxSlots;
-            document.getElementById('timeRange').textContent = `${minTime} - ${maxTime}`;
-        }
-        
-        // Generate on load
-        generateCalendar();
-    </script>
+      }
+      if (intervals.length === 0) {
+        alert('⚠️ No valid intervals found. Use format: start,end');
+        return;
+      }
+      const calendar = new CalendarLayout();
+      const { rectangles, maxSlots, minTime, maxTime, timeRange } =
+        calendar.layoutIntervals(intervals, slotWidth, calendarHeight, gap);
+      const calendarDiv = document.getElementById('calendar');
+      const totalWidth = maxSlots * slotWidth + 100;
+      calendarDiv.style.width = totalWidth + 'px';
+      calendarDiv.style.height = (calendarHeight + 60) + 'px';
+      calendarDiv.style.position = 'relative';
+      calendarDiv.style.marginLeft = '70px';
+      calendarDiv.style.marginTop = '40px';
+      calendarDiv.innerHTML = '';
+      rectangles.forEach((rect) => {
+        const div = document.createElement('div');
+        div.className = 'interval';
+        div.style.left = rect.x1 + 'px';
+        div.style.top = rect.y1 + 'px';
+        div.style.width = (rect.x2 - rect.x1) + 'px';
+        div.style.height = (rect.y2 - rect.y1) + 'px';
+        div.style.background = getColor(rect.index);
+        div.textContent = `[${rect.interval.start}, ${rect.interval.end}]`;
+        div.title = `Meeting ${rect.index + 1}\nTime: [${rect.interval.start}, ${rect.interval.end}]\nRoom: ${rect.slot + 1}`;
+        calendarDiv.appendChild(div);
+      });
+      for (let i = 0; i < maxSlots; i++) {
+        const label = document.createElement('div');
+        label.className = 'slot-label';
+        label.style.left = (i * slotWidth + slotWidth / 2 - 30) + 'px';
+        label.textContent = `Room ${i + 1}`;
+        calendarDiv.appendChild(label);
+      }
+      const numMarkers = 10;
+      for (let i = 0; i <= numMarkers; i++) {
+        const time = minTime + (timeRange * i / numMarkers);
+        const y = (calendarHeight * i / numMarkers);
+        const marker = document.createElement('div');
+        marker.className = 'time-axis';
+        marker.style.top = y + 'px';
+        marker.textContent = Math.round(time);
+        calendarDiv.appendChild(marker);
+      }
+      document.getElementById('stats').style.display = 'block';
+      document.getElementById('totalIntervals').textContent = intervals.length;
+      document.getElementById('slotsRequired').textContent = maxSlots;
+      document.getElementById('timeRange').textContent = `${minTime} - ${maxTime}`;
+    }
+
+    function debounce(fn, delay) {
+      let t;
+      return function(...args) {
+        clearTimeout(t);
+        t = setTimeout(() => fn.apply(this, args), delay);
+      };
+    }
+
+    const scheduleBtn = document.getElementById('scheduleBtn');
+    scheduleBtn.addEventListener('click', generateCalendar);
+
+    document.getElementById('intervals').addEventListener('input', debounce(generateCalendar, 250));
+    document.getElementById('width').addEventListener('input', generateCalendar);
+    document.getElementById('height').addEventListener('input', generateCalendar);
+    document.getElementById('gap').addEventListener('input', generateCalendar);
+
+    generateCalendar();
+  </script>
 </body>
 </html>
